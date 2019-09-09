@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.psz.mapper.ReplyDAO">
+  <resultMap id="BaseResultMap" type="com.psz.treehole.Reply">
+    <id column="rNo" jdbcType="INTEGER" property="rno" />
+    <result column="rUsername" jdbcType="VARCHAR" property="rusername" />
+    <result column="rContent" jdbcType="VARCHAR" property="rcontent" />
+    <result column="tPage" jdbcType="INTEGER" property="tpage" />
+    <result column="tNo" jdbcType="INTEGER" property="tno" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    rNo, rUsername, rContent, tPage, tNo
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from reply
+    where rNo = #{rno,jdbcType=INTEGER}
+  </select>
+  
+    <select id="selectByPageNo" parameterType="com.psz.treehole.TzKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from reply
+    where tPage = #{tpage,jdbcType=INTEGER}
+      and tNo = #{tno,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from reply
+    where rNo = #{rno,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="rNo" keyProperty="rno" parameterType="com.psz.treehole.Reply" useGeneratedKeys="true">
+    insert into reply (rUsername, rContent, tPage, 
+      tNo)
+    values (#{rusername,jdbcType=VARCHAR}, #{rcontent,jdbcType=VARCHAR}, #{tpage,jdbcType=INTEGER}, 
+      #{tno,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="rNo" keyProperty="rno" parameterType="com.psz.treehole.Reply" useGeneratedKeys="true">
+    insert into reply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rusername != null">
+        rUsername,
+      </if>
+      <if test="rcontent != null">
+        rContent,
+      </if>
+      <if test="tpage != null">
+        tPage,
+      </if>
+      <if test="tno != null">
+        tNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rusername != null">
+        #{rusername,jdbcType=VARCHAR},
+      </if>
+      <if test="rcontent != null">
+        #{rcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="tpage != null">
+        #{tpage,jdbcType=INTEGER},
+      </if>
+      <if test="tno != null">
+        #{tno,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.psz.treehole.Reply">
+    update reply
+    <set>
+      <if test="rusername != null">
+        rUsername = #{rusername,jdbcType=VARCHAR},
+      </if>
+      <if test="rcontent != null">
+        rContent = #{rcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="tpage != null">
+        tPage = #{tpage,jdbcType=INTEGER},
+      </if>
+      <if test="tno != null">
+        tNo = #{tno,jdbcType=INTEGER},
+      </if>
+    </set>
+    where rNo = #{rno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.psz.treehole.Reply">
+    update reply
+    set rUsername = #{rusername,jdbcType=VARCHAR},
+      rContent = #{rcontent,jdbcType=VARCHAR},
+      tPage = #{tpage,jdbcType=INTEGER},
+      tNo = #{tno,jdbcType=INTEGER}
+    where rNo = #{rno,jdbcType=INTEGER}
+  </update>
+</mapper>

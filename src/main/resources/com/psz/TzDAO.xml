@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.psz.mapper.TzDAO">
+  <resultMap id="BaseResultMap" type="com.psz.treehole.Tz">
+    <id column="tPage" jdbcType="INTEGER" property="tpage" />
+    <id column="tNo" jdbcType="INTEGER" property="tno" />
+    <result column="tUsername" jdbcType="VARCHAR" property="tusername" />
+    <result column="tTitle" jdbcType="VARCHAR" property="ttitle" />
+    <result column="tContent" jdbcType="VARCHAR" property="tcontent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    tPage, tNo, tUsername,tTitle, tContent
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.psz.treehole.TzKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tz
+    where tPage = #{tpage,jdbcType=INTEGER}
+      and tNo = #{tno,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tz
+    where tPage = #{tpage,jdbcType=INTEGER}
+ </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="com.psz.treehole.TzKey">
+    delete from tz
+    where tPage = #{tpage,jdbcType=INTEGER}
+      and tNo = #{tno,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.psz.treehole.Tz">
+    insert into tz (tPage, tNo, tUsername,tTitle, 
+      tContent)
+    values (#{tpage,jdbcType=INTEGER}, #{tno,jdbcType=INTEGER}, #{tusername,jdbcType=VARCHAR},#{ttitle,jdbcType=VARCHAR}, 
+      #{tcontent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.psz.treehole.Tz">
+    insert into tz
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tpage != null">
+        tPage,
+      </if>
+      <if test="tno != null">
+        tNo,
+      </if>
+       <if test="tusername != null">
+        tUsername,
+      </if>
+      <if test="ttitle != null">
+        tTitle,
+      </if>
+      <if test="tcontent != null">
+        tContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tpage != null">
+        #{tpage,jdbcType=INTEGER},
+      </if>
+      <if test="tno != null">
+        #{tno,jdbcType=INTEGER},
+      </if>
+      <if test="tusername != null">
+        #{tusername,jdbcType=VARCHAR},
+      </if>
+      <if test="ttitle != null">
+        #{ttitle,jdbcType=VARCHAR},
+      </if>
+      <if test="tcontent != null">
+        #{tcontent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.psz.treehole.Tz">
+    update tz
+    <set>
+    <if test="tusername != null">
+        tUsername = #{tusername,jdbcType=VARCHAR},
+      </if>
+      <if test="ttitle != null">
+        tTitle = #{ttitle,jdbcType=VARCHAR},
+      </if>
+      <if test="tcontent != null">
+        tContent = #{tcontent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tPage = #{tpage,jdbcType=INTEGER}
+      and tNo = #{tno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.psz.treehole.Tz">
+    update tz
+    tUsername = #{tusername,jdbcType=VARCHAR},
+    set tTitle = #{ttitle,jdbcType=VARCHAR},
+      tContent = #{tcontent,jdbcType=VARCHAR}
+    where tPage = #{tpage,jdbcType=INTEGER}
+      and tNo = #{tno,jdbcType=INTEGER}
+  </update>
+</mapper>
